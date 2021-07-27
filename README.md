@@ -140,25 +140,25 @@ Currently collected metrics are:
 
      STATS                | NS nitro name
 ------------------------- | -------------
-LB vserver stats          | "lbvserver"
-CS vserver stats          | "csvserver"
-HTTP stats                | "protocolhttp"
-TCP stats                 | "protocoltcp"
-UDP stats                 | "protocoludp"
-IP stats                  | "protocolip"
-Interface stats           | "Interface" (capital 'i')
-Service stats             | "service"
-Service group stats       | "services"
-Bandwidth Capacity stats  | "nscapacity"
-SSL stats                 | "ssl"
-SSL Certicates stats      | "sslcertkey"
-SSL vserver stats         | "sslvserver"
-System info stats         | "system"
-System memory stats       | "systemmemory"
-System cpu stats          | "systemcpu"
-High Availability stats   | "hanode.yml"
-AAA stats                 | "aaa"
-ADC Probe success         | "1" if successful, else "0"
+LB vserver stats | "lbvserver"
+CS vserver stats | "csvserver"
+HTTP stats | "protocolhttp"
+TCP stats | "protocoltcp"
+UDP stats | "protocoludp"
+IP stats | "protocolip"
+Interface stats | "Interface" (capital 'i')
+Service stats | "service"
+Service group stats | "services"
+Bandwidth Capacity stats | "nscapacity"
+SSL stats | "ssl"
+SSL Certicates stats | "sslcertkey"
+SSL vserver stats | "sslvserver"
+System info stats | "system"
+System memory stats | "systemmemory"
+System cpu stats | "systemcpu"
+High Availability stats | "hanode.yml"
+AAA stats | "aaa"
+ADC Probe success | "1" if successful, else "0"
 
 ## Prometheus config
 
