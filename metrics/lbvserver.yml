@@ -1,0 +1,289 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/lb/lbvserver/
+### Statistics for lbvserver.
+#
+- name: lbvserver
+  actions:
+    - name: collect elements
+      url: /stat/lbvserver
+      var_name: _root
+
+    - name: proceed elements
+      with_items: "{{ lbvserver }}"
+      when:
+        - item is mapping
+        - item.name is defined
+      actions:
+        - name: build labels
+          set_fact:
+            labels:
+              - name: citrixadc_lb_type
+                value: "{{ item.type }}"
+              - name: citrixadc_lb_name
+                value: "{{ item.name }}"
+              - name: citrixadc_lb_state
+                value: "{{ item.state }}"
+
+        - name: build metrics
+          metric_prefix: citrixadc_lb
+          metrics:
+
+            - name: packets_sent_total
+              help: Total number of packets sent.
+              type: counter
+              value: "{{ item.totalpktssent }}"
+              labels: "{{ labels }}"
+
+            - name: packets_received_total
+              help: Total number of packet received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalpktsrecvd }}"
+              labels: "{{ labels }}"
+
+            - name: hits_total
+              help: Total vserver hits
+              type: counter
+              value: "{{ item.tothits }}"
+              labels: "{{ labels }}"
+
+            - name: request_bytes_received_total
+              help: Total number of request bytes received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalrequestbytes }}"
+              labels: "{{ labels }}"
+
+            - name: response_bytes_received_total
+              help: Number of response bytes received by this service or virtual server.
+              type: counter
+              value: "{{ item.totalresponsebytes }}"
+              labels: "{{ labels }}"
+
+            - name: requests_total
+              help: Total number of requests received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalrequests }}"
+              labels: "{{ labels }}"
+
+            - name: responses_total
+              help: Number of responses received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalresponses }}"
+              labels: "{{ labels }}"
+
+            - name: surge_count
+              help: Number of requests in the surge queue.
+              type: counter
+              value: "{{ item.surgecount }}"
+              labels: "{{ labels }}"
+
+            - name: tolerable_transactions_count
+              help: Tolerable transactions based on APDEX threshold.
+              type: counter
+              value: "{{ item.toleratingttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: ttlb_calculated_transactions_total
+              help: Total transactions where client TTLB is calculated.
+              type: counter
+              value: "{{ item.totcltttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: deffered_requests_total
+              help: Number of deferred request on this vserver.
+              type: counter
+              value: "{{ item.deferredreq }}"
+              labels: "{{ labels }}"
+
+            - name: spillover_count_total
+              help: Number of times vserver experienced spill over.
+              type: counter
+              value: "{{ item.totspillovers }}"
+              labels: "{{ labels }}"
+
+            - name: invalid_response_request_total
+              help: Number invalid requests/responses on this vserver
+              type: counter
+              value: "{{ item.invalidrequestresponse }}"
+              labels: "{{ labels }}"
+
+            - name: invalid_response_request_dropped_total
+              help: Number invalid requests/responses dropped on this vserver
+              type: counter
+              value: "{{ item.invalidrequestresponsedropped }}"
+              labels: "{{ labels }}"
+
+            - name: frustrating_transactions_total
+              help: Frustrating transactions based on APDEX threshold
+              type: counter
+              value: "{{ item.frustratingttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: tolerable_transactions_total
+              help: Number of times traffic was diverted to backup vserver since primary vserver was DOWN.
+              type: counter
+              value: "{{ item.toleratingttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: backup_server_divert_count_total
+              help: Number of times traffic was diverted to backup vserver since primary vserver was DOWN.
+              type: counter
+              value: "{{ item.totvserverdownbackuphits }}"
+              labels: "{{ labels }}"
+
+            - name: busy_error_total
+              help: Number of response bytes received by this service or virtual server.
+              type: counter
+              value: "{{ item.totalsvrbusyerr }}"
+              labels: "{{ labels }}"
+
+            - name: request_rate_bytes
+              help: Rate (/s) of request bytes received on this service or virtual server.
+              type: gauge
+              value: "{{ item.requestbytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: request_rate
+              help: Rate (/s) of requests received on this service or virtual server.
+              type: gauge
+              value: "{{ item.requestsrate }}"
+              labels: "{{ labels }}"
+
+            - name: packets_received_rate
+              help: Rate (/s) of packet received on this service or virtual server.
+              type: gauge
+              value: "{{ item.pktsrecvdrate }}"
+              labels: "{{ labels }}"
+
+            - name: frustrating_transactions_rate
+              type: gauge
+              value: "{{ item.frustratingttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: client_response_time_adex
+              help: Vserver APDEX index based on client response times.
+              type: gauge
+              value: "{{ item.cltresponsetimeapdex }}"
+              labels: "{{ labels }}"
+
+            - name: spill_over_threshold
+              help: Spill Over Threshold set on the VServer.
+              type: gauge
+              value: "{{ item.sothreshold }}"
+              labels: "{{ labels }}"
+
+            - name: actual_server_current_connections
+              help: Number of current connections to the actual servers behind the virtual server.
+              type: gauge
+              value: "{{ item.cursrvrconnections }}"
+              labels: "{{ labels }}"
+
+            - name: surge_queue_requests_count
+              help: Total number of requests in the surge queues of all the services bound to this LB-vserver.
+              type: gauge
+              value: "{{ item.svcsurgecount }}"
+              labels: "{{ labels }}"
+
+            - name: labeled_connections_count
+              help: Number of Labeled connection on this vserver
+              type: gauge
+              value: "{{ item.labelledconn }}"
+              labels: "{{ labels }}"
+
+            - name: current_mtcp_sessions_count
+              help: Current Multipath TCP sessions
+              type: gauge
+              value: "{{ item.curmptcpsessions }}"
+              labels: "{{ labels }}"
+
+            - name: deferred_requets_rate
+              help: Rate (/s) of deferred request on this vserver.
+              type: gauge
+              value: "{{ item.deferredreqrate }}"
+              labels: "{{ labels }}"
+
+            - name: average_ttlb
+              help: Average TTLB between the client and the server.
+              type: gauge
+              value: "{{ item.avgcltttlb }}"
+              labels: "{{ labels }}"
+
+            - name: ttlb_transactions_rate
+              type: gauge
+              value: "{{ item.cltttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: total_responses_rate
+              help: Rate (/s) of bytes encrypted on the NetScaler appliance.
+              type: gauge
+              value: "{{ item.responsesrate }}"
+              labels: "{{ labels }}"
+
+            - name: active_sessions_count
+              help: number of ACTIVE services bound to a vserver
+              type: gauge
+              value: "{{ item.actsvcs }}"
+              labels: "{{ labels }}"
+
+            - name: total_packets_sent_rate
+              help: Rate (/s) of packets sent.
+              type: gauge
+              value: "{{ item.pktssentrate }}"
+              labels: "{{ labels }}"
+
+            - name: current_mtcp_subflows_count
+              help: Current Multipath TCP subflows
+              type: gauge
+              value: "{{ item.cursubflowconn }}"
+              labels: "{{ labels }}"
+
+            - name: current_client_connection_count
+              help: Number of current client connections.
+              type: gauge
+              value: "{{ item.curclntconnections }}"
+              labels: "{{ labels }}"
+
+            - name: push_label_count
+              help: Number of labels for this push vserver.
+              type: gauge
+              value: "{{ item.pushlabel }}"
+              labels: "{{ labels }}"
+
+            - name: hits_rate
+              help: Rate (/s) of vserver hits
+              type: gauge
+              value: "{{ item.hitsrate }}"
+              labels: "{{ labels }}"
+
+            - name: established_connections_count
+              help: Number of client connections in ESTABLISHED state.
+              type: gauge
+              value: "{{ item.establishedconn }}"
+              labels: "{{ labels }}"
+
+            - name: response_bytes_received_rate
+              help: Rate (/s) of response bytes received by this service or virtual server.
+              type: gauge
+              value: "{{ item.responsebytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: inactive_services_count
+              help: number of INACTIVE services bound to a vserver
+              type: gauge
+              value: "{{ item.inactsvcs }}"
+              labels: "{{ labels }}"
+
+            - name: busy_error_rate
+              type: gauge
+              value: "{{ item.svrbusyerrrate }}"
+              labels: "{{ labels }}"
+
+            - name: members_up_total
+              help: percent of vserver members up. 100= all up.
+              type: gauge
+              value: "{% set total = 100 * ( item.actsvcs|int() / ( item.actsvcs|int() + item.inactsvcs|int() ) )%}{{ total }}"
+              labels: "{{ labels }}"
+
+...

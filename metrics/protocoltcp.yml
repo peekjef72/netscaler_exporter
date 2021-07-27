@@ -1,0 +1,172 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/protocol/protocoltcp/
+### Statistics for protocoltcp.
+#
+- name: protocoltcp
+  actions:
+    - name: collect elements
+      url: /stat/protocoltcp
+      var_name: _root
+
+    - name: proceed elements
+      metric_prefix: citrixadc_tcp
+      metrics: 
+        - name: tot_rx_packets
+          help: TCP packets received.
+          type: counter
+          value: "{{ protocoltcp.tcptotrxpkts }}"
+
+        - name: tot_rx_bytes
+          help: Bytes of TCP data received.
+          type: counter
+          value: "{{ protocoltcp.tcptotrxbytes }}"
+
+        - name: tot_tx_packets
+          help: TCP packets transmitted.
+          type: counter
+          value: "{{ protocoltcp.tcptottxpkts }}"
+
+        - name: tot_tx_bytes
+          help: Bytes of TCP data transmitted.
+          type: counter
+          value: "{{ protocoltcp.tcptottxbytes }}"
+
+        - name: tot_client_connections_opened
+          help: Client connections opened by the NetScaler since startup
+          type: counter
+          value: "{{ protocoltcp.tcptotclientconnopened }}"
+
+        - name: tot_server_connections_opened
+          help: Server connections initiated by the NetScaler since startup.
+          type: counter
+          value: "{{ protocoltcp.tcptotserverconnopened }}"
+
+        - name: tot_syn
+          help: SYN packets received
+          type: counter
+          value: "{{ protocoltcp.tcptotsyn }}"
+
+        - name: tot_syn_probe
+          help: Probes from the NetScaler to a server.
+          type: counter
+          value: "{{ protocoltcp.tcptotsynprobe }}"
+
+        - name: tot_server_fin
+          help: FIN packets received from the server.
+          type: counter
+          value: "{{ protocoltcp.tcptotsvrfin }}"
+
+        - name: tot_client_fin
+          help: FIN packets received from the clients.
+          type: counter
+          value: "{{ protocoltcp.tcptotcltfin }}"
+
+        - name: err_badchecksum
+          help: Packets received with a TCP checksum error.
+          type: counter
+          value: "{{ protocoltcp.tcperrbadchecksum }}"
+
+        - name: err_any_port_fail
+          help: Port allocations that have failed on mapped IP address
+          type: counter
+          value: "{{ protocoltcp.tcperranyportfail }}"
+
+        - name: err_ip_port_fail
+          help: Port allocations that have failed on a subnet IP address or vserver IP address
+          type: counter
+          value: "{{ protocoltcp.tcperripportfail }}"
+
+        - name: err_bad_connection_state
+          help: Connections that are not in a valid TCP state.
+          type: counter
+          value: "{{ protocoltcp.tcperrbadstateconn }}"
+
+        - name: err_reset_threshold
+          help: Reset packets dropped because the default threshold of 100 resets per 10 milliseconds has been exceeded.
+          type: counter
+          value: "{{ protocoltcp.tcperrrstthreshold }}"
+
+        - name: err_out_of_window
+          help: Packets received that are out of the current advertised window.
+          type: counter
+          value: "{{ protocoltcp.tcperroutofwindowpkts }}"
+
+        - name: err_syn_dropped_congestion
+          help: SYN packets dropped because of network congestion.
+          type: counter
+          value: "{{ protocoltcp.tcperrsyndroppedcongestion }}"
+
+        - name: err_full_retransmit
+          help: Full packets retransmitted by the client or the server.
+          type: counter
+          value: "{{ protocoltcp.tcperrfullretrasmit }}"
+
+        - name: active_server_connection
+          help: Connections to a server currently responding to requests.
+          type: gauge
+          value: "{{ protocoltcp.tcpactiveserverconn }}"
+
+        - name: current_client_connections_est
+          help: Current client connections in the Established state.
+          type: gauge
+          value: "{{ protocoltcp.tcpcurclientconnestablished }}"
+
+        - name: current_server_connections_est
+          help: Current server connections in the Established state.
+          type: gauge
+          value: "{{ protocoltcp.tcpcurserverconnestablished }}"
+
+        - name: rx_packets_rate
+          help: Rate (/s) TCP packets received.
+          type: gauge
+          value: "{{ protocoltcp.tcprxpktsrate }}"
+
+        - name: rx_bytes_rate
+          help: Rate (/s) bytes of TCP data received.
+          type: gauge
+          value: "{{ protocoltcp.tcprxbytesrate }}"
+
+        - name: tx_packets_rate
+          help: Rate (/s) TCP packets transmitted.
+          type: gauge
+          value: "{{ protocoltcp.tcptxpktsrate }}"
+
+        - name: tx_bytes_rate
+          help: Rate (/s) bytes of TCP data transmitted.
+          type: gauge
+          value: "{{ protocoltcp.tcptxbytesrate }}"
+
+        - name: client_connection_opened_rate
+          help: Rate (/s) of client connections opened by the NetScaler since startup
+          type: gauge
+          value: "{{ protocoltcp.tcpclientconnopenedrate }}"
+
+        - name: err_badchecksum_rate
+          help: Rate (/s) of packets received with a TCP checksum error.
+          type: gauge
+          value: "{{ protocoltcp.tcperrbadchecksumrate }}"
+
+        - name: syn_rate
+          help: Rate (/s) of SYN packets received.
+          type: gauge
+          value: "{{ protocoltcp.tcpsynrate }}"
+
+        - name: syn_probe_rate
+          help: Rate (/s) of Probes from the NetScaler to a server.
+          type: gauge
+          value: "{{ protocoltcp.tcpsynproberate }}"
+
+        - name: reset_packet_rate
+          help: Rate (/s) counter for tcperrsentrst
+          type: gauge
+          value: "{{ protocoltcp.tcperrsentrstrate }}"
+
+        - name: retransmit_packet_rate
+          help: Rate (/s) full packets retransmitted by the client or the server.
+          type: gauge
+          value: "{{ protocoltcp.tcperrfullretrasmitrate }}"
+
+...

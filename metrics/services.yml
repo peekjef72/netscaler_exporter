@@ -1,0 +1,106 @@
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/basic/servicegroup/
+### Statistics for servicegroup.
+#
+- name: services
+  actions:
+    - name: collect elements
+      url: /stat/servicegroup
+      var_name: _root
+
+    - name: proceed elements
+      with_items: "{{ servicegroup }}"
+      when:
+        - item is defined
+        - item is mapping
+        - item.servicegroupname is defined
+      actions:
+        - name: get groupcomponent stats
+          url: "/stat/servicegroup/{{ item.servicegroupname }}?statbindings=yes"
+          var_name: sub_res
+
+        - name: proceed group
+          with_items: "{{ sub_res.servicegroup[0].servicegroupmember }}"
+          loop_var: sub_item
+          actions:
+            - name: build labels
+              set_fact:
+                labels:
+                  - name: citrixadc_servicegroup_name
+                    value: "{{ item.servicegroupname }}"
+                  - name: citrixadc_service_type
+                    value: "{{ sub_item.servicetype }}"
+                  - name: citrixadc_service_state
+                    value: "{{ sub_item.state }}"
+                  - name: citrixadc_service_ip
+                    value: "{{ sub_item.primaryipaddress }}"
+                  - name: citrixadc_server_name
+                    value: "{{ sub_item.primaryipaddress }}"
+
+            - name: build metrics
+              metric_prefix: citrixadc_services
+              metrics:
+
+                - name: tot_responses
+                  type: counter
+                  value: "{{ sub_item.totalresponses }}"
+                  labels: "{{ labels }}"
+
+                - name: tot_srv_ttlb_transactions
+                  type: counter
+                  value: "{{ sub_item.totsvrttlbtransactions }}"
+                  labels: "{{ labels }}"
+
+                - name: tot_requests
+                  type: counter
+                  value: "{{ sub_item.totalrequests }}"
+                  labels: "{{ labels }}"
+
+                - name: tot_response_bytes
+                  type: counter
+                  value: "{{ sub_item.totalresponsebytes }}"
+                  labels: "{{ labels }}"
+
+                - name: tot_request_bytes
+                  type: counter
+                  value: "{{ sub_item.totalrequestbytes }}"
+                  labels: "{{ labels }}"
+
+                - name: avg_server_ttfb
+                  type: gauge
+                  value: "{{ sub_item.avgsvrttfb }}"
+                  labels: "{{ labels }}"
+
+                - name: requests_rate
+                  type: gauge
+                  value: "{{ sub_item.requestsrate }}"
+                  labels: "{{ labels }}"
+
+                - name: current_server_connections
+                  type: gauge
+                  value: "{{ sub_item.cursrvrconnections }}"
+                  labels: "{{ labels }}"
+
+                - name: responses_rate
+                  type: gauge
+                  value: "{{ sub_item.responsesrate }}"
+                  labels: "{{ labels }}"
+
+                - name: tolerating_ttlb_transactions
+                  type: gauge
+                  value: "{{ sub_item.toleratingttlbtransactions }}"
+                  labels: "{{ labels }}"
+
+                - name: response_bytes_rate
+                  type: gauge
+                  value: "{{ sub_item.responsebytesrate }}"
+                  labels: "{{ labels }}"
+
+                - name: request_bytes_rate
+                  type: gauge
+                  value: "{{ sub_item.requestbytesrate }}"
+                  labels: "{{ labels }}"
+
+...

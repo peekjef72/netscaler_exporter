@@ -1,0 +1,166 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/basic/service/
+### Statistics for service.
+#
+- name: service
+  actions:
+    - name: collect elements
+      url: /stat/service
+      var_name: _root
+
+    - name: proceed elements
+      with_items: "{{ service }}"
+      when:
+        - item is mapping
+        - item.name is defined
+      actions:
+        - name: build labels
+          set_fact:
+            labels:
+              - name: citrixadc_service_name
+                value: "{{ item.name }}"
+              - name: citrixadc_service_type
+                value: "{{ item.servicetype }}"
+              - name: citrixadc_service_state
+                value: "{{ item.state }}"
+
+        - name: build metrics
+          metric_prefix: citrixadc_service
+          metrics:
+
+            - name: throughput
+              help: Number of bytes received or sent by this service (Mbps).
+              type: counter
+              value: "{{ item.throughput }}"
+              labels: "{{ labels }}"
+
+            - name: tot_requests
+              help: Total number of requests received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalrequests }}"
+              labels: "{{ labels }}"
+
+            - name: tot_responses
+              help: Number of responses received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalresponses }}"
+              labels: "{{ labels }}"
+
+            - name: tot_request_bytes
+              help: Total number of request bytes received on this service or virtual server.
+              type: counter
+              value: "{{ item.totalrequestbytes }}"
+              labels: "{{ labels }}"
+
+            - name: tot_response_bytes
+              help: Number of response bytes received by this service or virtual server.
+              type: counter
+              value: "{{ item.totalresponsebytes }}"
+              labels: "{{ labels }}"
+
+            - name: throughput_rate
+              help: Rate (/s) of bytes received or sent by this service
+              type: gauge
+              value: "{{ item.throughputrate }}"
+              labels: "{{ labels }}"
+
+            - name: average_server_ttfb
+              help: Average TTFB between the NetScaler appliance and the server.
+              type: gauge
+              value: "{{ item.avgsvrttfb }}"
+              labels: "{{ labels }}"
+
+            - name: requests_rate
+              help: Rate (/s) of requests received on this service or virtual server.
+              type: gauge
+              value: "{{ item.requestsrate }}"
+              labels: "{{ labels }}"
+
+            - name: responses_rate
+              help: Rate (/s) of responses received on this service or virtual server.
+              type: gauge
+              value: "{{ item.responsesrate }}"
+              labels: "{{ labels }}"
+
+            - name: request_bytes_rate
+              help: Rate (/s) of request bytes received on this service or virtual server.
+              type: gauge
+              value: "{{ item.requestbytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: response_bytes_rate
+              help: Rate (/s) of response bytes received by this service or virtual server.
+              type: gauge
+              value: "{{ item.responsebytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: current_client_connections
+              help: Number of current client connections.
+              type: gauge
+              value: "{{ item.curclntconnections }}"
+              labels: "{{ labels }}"
+
+            - name: current_server_connections
+              help: Number of current connections to the actual servers behind the virtual server.
+              type: gauge
+              value: "{{ item.cursrvrconnections }}"
+              labels: "{{ labels }}"
+
+            - name: max_clients
+              help: Maximum open connections allowed on this service.
+              type: gauge
+              value: "{{ item.maxclients }}"
+              labels: "{{ labels }}"
+
+            - name: surge_count
+              help: Number of requests in the surge queue.
+              type: gauge
+              value: "{{ item.surgecount }}"
+              labels: "{{ labels }}"
+
+            - name: server_established_connections
+              help: Number of server connections in ESTABLISHED state.
+              type: gauge
+              value: "{{ item.svrestablishedconn }}"
+              labels: "{{ labels }}"
+
+            - name: vsvr_hits
+              help: Number of times that the service has been provided.
+              type: gauge
+              value: "{{ item.vsvrservicehits }}"
+              labels: "{{ labels }}"
+
+            - name: current_pool_use
+              help: Number of requests in the idle queue/reuse pool.
+              type: gauge
+              value: "{{ item.curreusepool }}"
+              labels: "{{ labels }}"
+
+            - name: current_load
+              help: Load on the service that is calculated from the bound load based monitor.
+              type: gauge
+              value: "{{ item.curload }}"
+              labels: "{{ labels }}"
+
+            - name: current_flags
+              help: Current flags on the service for internal use in display handlers.
+              type: gauge
+              value: "{{ item.curtflags }}"
+              labels: "{{ labels }}"
+
+            - name: vsvr_hits_rate
+              help: Rate (/s) of times that the service has been provided
+              type: gauge
+              value: "{{ item.vsvrservicehitsrate }}"
+              labels: "{{ labels }}"
+
+            - name: active_transactions
+              help: Number of active transactions handled by this service.
+              type: gauge
+              value: "{{ item.activetransactions }}"
+              labels: "{{ labels }}"
+
+...

@@ -1,0 +1,25 @@
+---
+
+##
+## url: https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/system/systemcpu/
+###
+#
+- name: systemcpu
+  actions:
+    - name: collect elements
+      url: /stat/systemcpu
+      var_name: _root
+    - name: proceed elements
+      metric_prefix: citrixadc_cpu_core
+      with_items: "{{ systemcpu }}"
+      metrics:
+        - name: usage_percent
+          help: cpu uage percent by core id
+          type: gauge
+          value: "{{ item.percpuuse }}"
+          labels:
+            - name: citrixadc_cpu_core_id
+              value: "{{ item.id }}"
+
+...
+

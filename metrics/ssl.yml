@@ -1,0 +1,76 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/ssl/ssl/
+### Statistics for ssl.
+#
+- name: ssl
+  actions:
+    - name: collect elements
+      url: /stat/ssl
+      var_name: _root
+    - name: proceed elements
+      metric_prefix: citrixadc_ssl
+      metrics:
+        - name: _tot_tlsv11_sessions
+          help: Number of TLSv1.1 sessions on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltottlsv11sessions }}"
+
+        - name: tot_v2_sessions
+          help: Number of SSLv2 sessions on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltotsslv2sessions }}"
+
+        - name: tot_sessions
+          help: Number of SSL sessions on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltotsessions }}"
+
+        - name: tot_v2_handshakes
+          help: Number of handshakes on SSLv2 on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltotsslv2handshakes }}"
+
+        - name: tot_encode
+          help: Number of bytes encrypted on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltotenc }}"
+
+        - name: crypto_utilization_stat
+          help: Utilization of the hardware crypto resource. Only valid values are 0-100. Only works on platforms with Nitrox-3 chips.
+          type: counter
+          value: "{{ ssl.sslcryptoutilizationstat }}"
+
+        - name: tot_new_sessions
+          help: Number of new SSL sessions created on the NetScaler appliance.
+          type: counter
+          value: "{{ ssl.ssltotnewsessions }}"
+
+        - name: session_rate
+          help: Rate by s counter for ssltotsessions
+          type: gauge
+          value: "{{ ssl.sslsessionsrate }}"
+
+        - name: dec_rate
+          help: Rate by s counter for ssltotdec
+          type: gauge
+          value: "{{ ssl.ssldecrate }}"
+
+        - name: encode_rate
+          help: Rate by s counter for ssltotenc
+          type: gauge
+          value: "{{ ssl.sslencrate }}"
+
+        - name: v2_handshakes_rate
+          help: Rate by s counter for ssltotsslv2handshakes
+          type: gauge
+          value: "{{ ssl.sslsslv2handshakesrate }}"
+
+        - name: new_sessions_rate
+          help: Rate by s counter for ssltotnewsessions
+          type: gauge
+          value: "{{ ssl.sslnewsessionsrate }}"
+
+...

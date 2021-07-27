@@ -1,0 +1,197 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/protocol/protocolip/
+### Statistics for protocolip.
+#
+- name: protocolip
+  actions:
+    - name: collect elements
+      url: /stat/protocolip
+      var_name: _root
+
+    - name: proceed elements
+      metric_prefix: citrixadc_ip
+      metrics: 
+        - name: tot_rx_packets
+          help: IP packets received.
+          type: counter
+          value: "{{ protocolip.iptotrxpkts }}"
+
+        - name: tot_rx_bytes
+          help: Bytes of IP data received.
+          type: counter
+          value: "{{ protocolip.iptotrxbytes }}"
+
+        - name: tx_packets
+          help: IP packets transmitted.
+          type: counter
+          value: "{{ protocolip.iptottxpkts }}"
+
+        - name: tx_bytes
+          help: Bytes of IP data transmitted.
+          type: counter
+          value: "{{ protocolip.iptottxbytes }}"
+
+        - name: rx_mbits
+          help: Megabits of IP data received.
+          type: counter
+          value: "{{ protocolip.iptotrxmbits }}"
+
+        - name: tx_mbits
+          help: Megabits of IP data transmitted.
+          type: counter
+          value: "{{ protocolip.iptottxmbits }}"
+
+        - name: tot_routed_packets
+          help: Total routed packets.
+          type: counter
+          value: "{{ protocolip.iptotroutedpkts }}"
+
+        - name: tot_routed_mbits
+          help: Total routed Mbits.
+          type: counter
+          value: "{{ protocolip.iptotroutedmbits }}"
+
+        - name: tot_fragments
+          help: IP fragments received.
+          type: counter
+          value: "{{ protocolip.iptotfragments }}"
+
+        - name: tot_successful_assembly
+          help: Fragmented IP packets successfully reassembled on the NetScaler.
+          type: counter
+          value: "{{ protocolip.iptotsuccreassembly }}"
+
+        - name: tot_address_lookup
+          help: IP address lookups performed by the NetScaler.
+          type: counter
+          value: "{{ protocolip.iptotaddrlookup }}"
+
+        - name: tot_address_lookup_fail
+          help: Failed IP address lookups performed by the NetScaler.
+          type: counter
+          value: "{{ protocolip.iptotaddrlookupfail }}"
+
+        - name: tot_udp_fragments_forwarded
+          help: UDP fragments forwarded to the client or the server.
+          type: counter
+          value: "{{ protocolip.iptotudpfragmentsfwd }}"
+
+        - name: tot_tcp_fragments_forwarded
+          help: TCP fragments forwarded to the client or the server.
+          type: counter
+          value: "{{ protocolip.iptottcpfragmentsfwd }}"
+
+        - name: tot_bad_checksums
+          help: Packets received with an IP checksum error.
+          type: counter
+          value: "{{ protocolip.iptotbadchecksums }}"
+
+        - name: tot_unsuccessful_assembly
+          help: Packets received that could not be reassembled.
+          type: counter
+          value: "{{ protocolip.iptotunsuccreassembly }}"
+
+        - name: tot_too_big
+          help: Packets received for which the reassembled data exceeds 1500 bytes.
+          type: counter
+          value: "{{ protocolip.iptottoobig }}"
+
+        - name: tot_udp_fragments
+          help: Duplicate IP fragments received.
+          type: counter
+          value: "{{ protocolip.iptotdupfragments }}"
+
+        - name: tot_out_of_order_fragments
+          help: Fragments received that are out of order.
+          type: counter
+          value: "{{ protocolip.iptotoutoforderfrag }}"
+
+        - name: tot_vip_down
+          help: Packets received for which the VIP is down.
+          type: counter
+          value: "{{ protocolip.iptotvipdown }}"
+
+        - name: tot_ttl_expired
+          help: Packets for which the time-to-live (TTL) expired during transit.
+          type: counter
+          value: "{{ protocolip.iptotttlexpired }}"
+
+        - name: tot_max_clients
+          help: Attempts to open a new connection to a service for which the maximum limit has been exceeded
+          type: counter
+          value: "{{ protocolip.iptotmaxclients }}"
+
+        - name: tot_unkown_services
+          help: Packets received on a port or service that is not configured.
+          type: counter
+          value: "{{ protocolip.iptotunknownsvcs }}"
+
+        - name: tot_invalid_header_size
+          help: Packets received in which an invalid data length is specified
+          type: counter
+          value: "{{ protocolip.iptotinvalidheadersz }}"
+
+        - name: tot_invalid_packet_size
+          help: Total number of packets received by NetScaler with invalid IP packet size.
+          type: counter
+          value: "{{ protocolip.iptotinvalidpacketsize }}"
+
+        - name: tot_truncated_packets
+          help: Truncated IP packets received.
+          type: counter
+          value: "{{ protocolip.iptottruncatedpackets }}"
+
+        - name: _ip_tot_truncated_packets
+          help: Truncated non-IP packets received.
+          type: counter
+          value: "{{ protocolip.noniptottruncatedpackets }}"
+
+        - name: tot_bad_mac_addresses
+          help: IP packets transmitted with a bad MAC address.
+          type: counter
+          value: "{{ protocolip.iptotbadmacaddrs }}"
+
+        - name: rx_packets_rate
+          help: Rate (/s) IP packets received.
+          type: gauge
+          value: "{{ protocolip.iprxpktsrate }}"
+
+        - name: rx_bytes_rate
+          help: Rate (/s) Bytes of IP data received.
+          type: gauge
+          value: "{{ protocolip.iprxbytesrate }}"
+
+        - name: tx_packets_rate
+          help: Rate (/s) IP packets transmitted.
+          type: gauge
+          value: "{{ protocolip.iptxpktsrate }}"
+
+        - name: bytes_rate
+          help: Rate (/s) Bytes of IP data transmitted.
+          type: gauge
+          value: "{{ protocolip.iptxbytesrate }}"
+
+        - name: rx_mbits_rate
+          help: Rate (/s) Megabits of IP data received.
+          type: gauge
+          value: "{{ protocolip.iprxmbitsrate }}"
+
+        - name: tx_mbits_rate
+          help: Rate (/s) Megabits of IP data transmitted.
+          type: gauge
+          value: "{{ protocolip.iptxmbitsrate }}"
+
+        - name: routed_packets_rate
+          help: Rate (/s) total routed packets.
+          type: gauge
+          value: "{{ protocolip.iproutedpktsrate }}"
+
+        - name: routed_mbits_rate
+          help: Rate (/s) total routed Mbits.
+          type: gauge
+          value: "{{ protocolip.iproutedmbitsrate }}"
+
+...

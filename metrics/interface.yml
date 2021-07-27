@@ -1,0 +1,266 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/network/interface/
+### Statistics for interface.
+#
+- name: interface
+  actions:
+    - name: collect elements
+      url: /stat/interface
+      var_name: _root
+
+    - name: proceed elements
+      with_items: "{{ Interface }}"
+      when:
+        - item is mapping
+        - item.id is defined
+      actions:
+        - name: build labels
+          set_fact:
+            labels:
+              - name: citrixadc_interface_alias
+                value: "{{ item.interfacealias }}"
+              - name: citrixadc_interface_id
+                value: "{{ item.id }}"
+
+        - name: build metrics
+          metric_prefix: citrixadc_interface
+          metrics:
+
+            - name: tot_multicast_packets
+              help: Number of multicast packets received.
+              type: counter
+              value: "{{ item.nictotmulticastpkts }}"
+              labels: "{{ labels }}"
+
+            - name: rx_crc_errors
+              help: Number of packets received with the wrong checksum.
+              type: counter
+              value: "{{ item.rxcrcerrors }}"
+              labels: "{{ labels }}"
+
+            - name: tot_mac_moved
+              help: Number of MAC moves between ports.
+              type: counter
+              value: "{{ item.totmacmoved }}"
+              labels: "{{ labels }}"
+
+            - name: trunk_packets_transmitted
+              help: Number of Tagged Packets transmitted on this Trunk interface through Allowed VLan List.
+              type: counter
+              value: "{{ item.trunkpktstransmitted }}"
+              labels: "{{ labels }}"
+
+            - name: err_dropped_rx_packets
+              help: Number of inbound packets dropped by the specified interface.
+              type: counter
+              value: "{{ item.errdroppedrxpkts }}"
+              labels: "{{ labels }}"
+
+            - name: link_reinitializations
+              help: Number of times the link has been re-initialized
+              type: counter
+              value: "{{ item.linkreinits }}"
+              labels: "{{ labels }}"
+
+            - name: err_ifin_discards
+              help: Number of error-free inbound packets discarded
+              type: counter
+              value: "{{ item.errifindiscards }}"
+              labels: "{{ labels }}"
+
+            - name: err_ifout_discards
+              help: Number of error-free outbound packets discarded
+              type: counter
+              value: "{{ item.nicerrifoutdiscards }}"
+              labels: "{{ labels }}"
+
+            - name: err_dropped_tx_packets
+              help: Number of packets dropped in transmission by the specified interface
+              type: counter
+              value: "{{ item.errdroppedtxpkts }}"
+              labels: "{{ labels }}"
+
+            - name: tot_tx_bytes
+              help: Number of bytes transmitted by an interface
+              type: counter
+              value: "{{ item.tottxbytes }}"
+              labels: "{{ labels }}"
+
+            - name: jumbo_packets_transmitted
+              help: Number of Jumbo packets transmitted
+              type: counter
+              value: "{{ item.jumbopktstransmitted }}"
+              labels: "{{ labels }}"
+
+            - name: tot_packets
+              help: Number of packets, destined to the NetScaler, received
+              type: counter
+              value: "{{ item.totnetscalerpkts }}"
+              labels: "{{ labels }}"
+
+            - name: err_tx_packets
+              help: Number of outbound packets dropped by the hardware on a specified interface
+              type: counter
+              value: "{{ item.errpkttx }}"
+              labels: "{{ labels }}"
+
+            - name: tot_rx_bytes
+              help: Number of bytes received by an interface
+              type: counter
+              value: "{{ item.totrxbytes }}"
+              labels: "{{ labels }}"
+
+            - name: trunk_packets_received
+              help: Number of Tagged Packets received on this Trunk interface through Allowed VLan List.
+              type: counter
+              value: "{{ item.trunkpktsreceived }}"
+              labels: "{{ labels }}"
+
+            - name: err_rx_packets
+              help: Number of inbound packets dropped by the hardware on a specified interface
+              type: counter
+              value: "{{ item.errpktrx }}"
+              labels: "{{ labels }}"
+
+            - name: rx_lacpdu
+              help: Number of Link Aggregation Control Protocol Data Units(LACPDUs) received.
+              type: counter
+              value: "{{ item.rxlacpdu }}"
+              labels: "{{ labels }}"
+
+            - name: tx_lacpdu
+              help: Number of Link Aggregation Control Protocol Data Units(LACPDUs) transmitted
+              type: counter
+              value: "{{ item.txlacpdu }}"
+              labels: "{{ labels }}"
+
+            - name: jumbo_packets_received
+              help: Number of Jumbo Packets received on this interface.
+              type: counter
+              value: "{{ item.jumbopktsreceived }}"
+              labels: "{{ labels }}"
+
+            - name: tot_rx_packets
+              help: Number of packets received by an interface
+              type: counter
+              value: "{{ item.totrxpkts }}"
+              labels: "{{ labels }}"
+
+            - name: tot_tx_packets
+              help: Number of packets transmitted by an interface
+              type: counter
+              value: "{{ item.tottxpkts }}"
+              labels: "{{ labels }}"
+
+            - name: err_packets_rx_rate
+              help: Rate (/s) of inbound packets dropped by the hardware on a specified interface
+              type: gauge
+              value: "{{ item.errpktrxrate }}"
+              labels: "{{ labels }}"
+
+            - name: rx_lacpdu_rate
+              help: Rate (/s) of Link Aggregation Control Protocol Data Units(LACPDUs) received.
+              type: gauge
+              value: "{{ item.rxlacpdurate }}"
+              labels: "{{ labels }}"
+
+            - name: err_dropped_rx_packets_rate
+              help: Rate (/s) of inbound packets dropped by the specified interface.
+              type: gauge
+              value: "{{ item.errdroppedrxpktsrate }}"
+              labels: "{{ labels }}"
+
+            - name: rx_packets_rate
+              help: Rate (/s) of packets received by an interface
+              type: gauge
+              value: "{{ item.rxpktsrate }}"
+              labels: "{{ labels }}"
+
+            - name: err_ifin_discards_rate
+              help: Rate (/s) of error-free inbound packets discarded
+              type: gauge
+              value: "{{ item.errifindiscardsrate }}"
+              labels: "{{ labels }}"
+
+            - name: err_if_out_discards_rate
+              help: Rate (/s) of error-free outbound packets discarded
+              type: gauge
+              value: "{{ item.nicerrifoutdiscardsrate }}"
+              labels: "{{ labels }}"
+
+            - name: mac_moved_rate
+              help: Rate (/s) of MAC moves between ports.
+              type: gauge
+              value: "{{ item.macmovedrate }}"
+              labels: "{{ labels }}"
+
+            - name: rx_crc_errors_rate
+              help: Rate (/s) of packets received with the wrong checksum.
+              type: gauge
+              value: "{{ item.rxcrcerrorsrate }}"
+              labels: "{{ labels }}"
+
+            - name: jumbo_packets_transmitted_rate
+              help: Rate (/s) of Jumbo packets transmitted
+              type: gauge
+              value: "{{ item.jumbopktstransmittedrate }}"
+              labels: "{{ labels }}"
+
+            - name: jumbo_packets_received_rate
+              help: Rate (/s) of Jumbo Packets received on this interface.
+              type: gauge
+              value: "{{ item.jumbopktsreceivedrate }}"
+              labels: "{{ labels }}"
+
+            - name: rx_bytes_rate
+              help: Rate (/s) of bytes received by an interface
+              type: gauge
+              value: "{{ item.rxbytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: trunk_packets_received_rate
+              help: Rate (/s) of Tagged Packets received on this Trunk interface through Allowed VLan List.
+              type: gauge
+              value: "{{ item.trunkpktsreceivedrate }}"
+              labels: "{{ labels }}"
+
+            - name: err_dropped_tx_packets_rate
+              help: Rate (/s) of packets dropped in transmission by the specified interface
+              type: gauge
+              value: "{{ item.errdroppedtxpktsrate }}"
+              labels: "{{ labels }}"
+
+            - name: tx_lacpdu_rate
+              help: Rate (/s) of Link Aggregation Control Protocol Data Units(LACPDUs) transmitted
+              type: gauge
+              value: "{{ item.txlacpdurate }}"
+              labels: "{{ labels }}"
+
+            - name: tx_bytes_rate
+              help: Rate (/s) of bytes transmitted by an interface
+              type: gauge
+              value: "{{ item.txbytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: tx_packets_rate
+              help: Rate (/s) of packets transmitted by an interface
+              type: gauge
+              value: "{{ item.txpktsrate }}"
+              labels: "{{ labels }}"
+
+            - name: packets_rate
+              help: Rate (/s) of packets, destined to the NetScaler, received
+              type: gauge
+              value: "{{ item.netscalerpktsrate }}"
+              labels: "{{ labels }}"
+
+            - name: trunk_packets_transmitted_rate
+              help: Rate (/s) of Tagged Packets transmitted on this Trunk interface through Allowed VLan List.
+              type: gauge
+              value: "{{ item.trunkpktstransmittedrate }}"
+              labels: "{{ labels }}"
+
+...

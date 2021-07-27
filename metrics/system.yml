@@ -1,0 +1,76 @@
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/system/system/
+### Statistics for system.
+#
+- name: system
+  actions:
+    - name: collect elements
+      url: /stat/system
+      var_name: _root
+    - name: proceed elements
+      metric_prefix: citrixadc
+      metrics:
+        - name: cpu_number
+          help: constant number of cpu for appliance
+          type: counter
+          value: "{{ system.numcpus }}"
+
+        - name: var_partition_free_mb
+          help: var partition available megabytes
+          type: counter
+          value: "{{ system.disk1avail }}"
+
+        - name: var_partition_used_mb
+          help: var partition used megabytes
+          type: counter
+          value: "{{ system.disk1used }}"
+
+        - name: flash_partition_free_mb
+          help: flash partition available megabytes
+          type: counter
+          value: "{{ system.disk0avail }}"
+
+        - name: flash_partition_used_mb
+          help: flash partition used megabytes
+          type: counter
+          value: "{{ system.disk0used }}"
+
+        - name: cpu_usage_percent
+          help: instant value for cpu usage percent
+          type: gauge
+          value: "{{ system.cpuusagepcnt }}"
+
+        - name: memory_usage_percent
+          help: instant value for memory usage percent
+          type: gauge
+          value: "{{ system.memusagepcnt }}"
+
+        - name: management_cpu_usage_percent
+          help: instant value for cpu management usage percent 
+          type: gauge
+          value: "{{ system.mgmtcpuusagepcnt }}"
+
+        - name: packet_cpu_usage_percent
+          help: instant value for cpu packet proccessing usage percent
+          type: gauge
+          value: "{{ system.pktcpuusagepcnt }}"
+
+        - name: res_cpu_usage_percent
+          help: instant value for cpu response proccessing usage percent
+          type: gauge
+          value: "{{ system.rescpuusagepcnt }}"
+
+        - name: var_partition_used_percent
+          help: instant value for var partition used percent
+          type: gauge
+          value: "{{ system.disk1perusage }}"
+
+        - name: flash_partition_used_percent
+          help: instant value for flash partition used percent
+          type: gauge
+          value: "{{ system.disk0perusage }}"
+
+...
+

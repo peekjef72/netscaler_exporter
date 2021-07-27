@@ -1,0 +1,66 @@
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/protocol/protocoludp/
+### Statistics for protocoludp.
+#
+- name: protocoludp
+  actions:
+    - name: collect elements
+      url: /stat/protocoludp
+      var_name: _root
+
+    - name: proceed elements
+      metric_prefix: citrixadc_udp
+      metrics: 
+        - name: tot_rx_packets
+          help: Total number of UDP packets received.
+          type: counter
+          value: "{{ protocoludp.udptotrxpkts }}"
+
+        - name: tot_rx_bytes
+          help: Total number of bytes of UDP packets received.
+          type: counter
+          value: "{{ protocoludp.udptotrxbytes }}"
+
+        - name: tot_tx_packets
+          help: Total number of UDP packets transmitted.
+          type: counter
+          value: "{{ protocoludp.udptottxpkts }}"
+
+        - name: tot_tx_bytes
+          help: Total number of bytes of UDP packets transmitted.
+          type: counter
+          value: "{{ protocoludp.udptottxbytes }}"
+
+        - name: tot_unknown_service_packets
+          help: Stray UDP packets dropped due to no configured listening service.
+          type: counter
+          value: "{{ protocoludp.udptotunknownsvcpkts }}"
+
+        - name: tot_bad_checksum_packets
+          help: Packets received with a UDP checksum error.
+          type: counter
+          value: "{{ protocoludp.udpbadchecksum }}"
+
+        - name: rx_packets_rate
+          help: Rate (/s) of UDP packets received.
+          type: gauge
+          value: "{{ protocoludp.udprxpktsrate }}"
+
+        - name: rx_bytes_rate
+          help: Rate (/s) of bytes of UDP packets received.
+          type: gauge
+          value: "{{ protocoludp.udprxbytesrate }}"
+
+        - name: tx_packets_rate
+          help: Rate (/s) of UDP packets transmitted.
+          type: gauge
+          value: "{{ protocoludp.udptxpktsrate }}"
+
+        - name: tx_bytes_rate
+          help: Rate (/s) of bytes of UDP packets transmitted.
+          type: gauge
+          value: "{{ protocoludp.udptxbytesrate }}"
+
+...

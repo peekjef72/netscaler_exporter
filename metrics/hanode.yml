@@ -1,0 +1,64 @@
+---
+
+##
+## url: https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/ha/hanode/
+###
+#
+- name: hanode
+  actions:
+    - name: collect elements
+      url: /stat/hanode
+      var_name: _root
+
+    - name: proceed elements
+      metric_prefix: citrixadc_ha
+      metrics:
+        - name: available
+          help: "Whether a NetScaler appliance is configured for high availability."
+          type: gauge
+          labels:
+            - name: status
+              value: "{{ hanode.hacurstatus | string() }}"
+          value: "{% if hanode.hacurstatus == 'YES' %}1{% else %}0{% endif%}"
+
+        - name: state
+          help: "State of the HA node, based on its health, in a high availability setup 1 UP / 0 else"
+          type: gauge
+          labels:
+            - name: state
+              value: "{{ hanode.hacurstate | string() }}"
+          value: "{% if hanode.hacurstate == 'UP' %}1{% else %}0{% endif%}"
+          when: "hanode.hacurstatus == 'YES'"
+
+        - name: node_state
+          help: "Indicates the high availability state of the node. 0 Other - 1 Primary - 2 Secondary"
+          type: gauge
+          labels:
+            - name: node_state
+              value: "{{ hanode.hacurmasterstate }}"
+          value: "{% set state = hanode.hacurmasterstate |upper %}{% if state == 'PRIMARY' %}1{% elif state == 'SECONDARY' %}2{% else %}0{% endif%}"
+          when: "hanode.hacurstatus == 'YES'"
+
+        - name: node_start_timestamp
+          help: "Timestamp when the last master state transition occurred."
+          type: gauge
+          labels:
+            - name: node_transtime
+              value: "{{ hanode.transtime }}"
+          value: "{{ hanode.transtime | to_timestamp }}"
+          when: "hanode.hacurstatus == 'YES'"
+
+        - name: node_propagation_timeout
+          help: "Number of times propagation timed out."
+          type: counter
+          value: "{{ hanode.haerrproptimeout }}"
+          when: "hanode.hacurstatus == 'YES'"
+
+        - name: node_sync_failure
+          help: "Number of times synchronization failed since that last transition."
+          type: counter
+          value: "{{ hanode.haerrsyncfailure }}"
+          when: "hanode.hacurstatus == 'YES'"
+
+...
+

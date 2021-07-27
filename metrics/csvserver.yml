@@ -1,0 +1,214 @@
+
+---
+
+##
+## url https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/statistics/cs/csvserver/
+### Statistics for csvserver.
+#
+- name: csvserver
+  actions:
+    - name: collect elements
+      url: /stat/csvserver
+      var_name: _root
+
+    - name: proceed elements
+      with_items: "{{ csvserver }}"
+      when:
+        - item is mapping
+        - item.name is defined
+      actions:
+        - name: build labels
+          set_fact:
+            labels:
+              - name: citrixadc_cs_name
+                value: "{{ item.name }}"
+              - name: citrixadc_cs_type
+                value: "{{ item.type }}"
+              - name: citrixadc_cs_state
+                value: "{{ item.state }}"
+
+        - name: build metrics
+          metric_prefix: citrixadc_cs
+          metrics:
+
+            - name: packets_sent_total
+              type: counter
+              value: "{{ item.totalpktssent }}"
+              labels: "{{ labels }}"
+
+            - name: hits_total
+              type: counter
+              value: "{{ item.tothits }}"
+              labels: "{{ labels }}"
+
+            - name: request_bytes_total
+              type: counter
+              value: "{{ item.totalrequestbytes }}"
+              labels: "{{ labels }}"
+
+            - name: packets_received_total
+              type: counter
+              value: "{{ item.totalpktsrecvd }}"
+              labels: "{{ labels }}"
+
+            - name: responses_total
+              type: counter
+              value: "{{ item.totalresponses }}"
+              labels: "{{ labels }}"
+
+            - name: tolerating_ttlb_transactions_count
+              type: counter
+              value: "{{ item.toleratingttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: ttlb_calculated_transactions_total
+              type: counter
+              value: "{{ item.totcltttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: deferred_requests_total
+              type: counter
+              value: "{{ item.deferredreq }}"
+              labels: "{{ labels }}"
+
+            - name: spillover_count_total
+              type: counter
+              value: "{{ item.totspillovers }}"
+              labels: "{{ labels }}"
+
+            - name: invalid_response_request_total
+              type: counter
+              value: "{{ item.invalidrequestresponse }}"
+              labels: "{{ labels }}"
+
+            - name: requests_total
+              type: counter
+              value: "{{ item.totalrequests }}"
+              labels: "{{ labels }}"
+
+            - name: invalid_response_request_dropped_total
+              type: counter
+              value: "{{ item.invalidrequestresponsedropped }}"
+              labels: "{{ labels }}"
+
+            - name: frustrating_transactions_total
+              type: counter
+              value: "{{ item.frustratingttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: tolerating_ttlb_transactions_total
+              type: counter
+              value: "{{ item.toleratingttlbtransactions }}"
+              labels: "{{ labels }}"
+
+            - name: backup_server_divert_count_total
+              type: counter
+              value: "{{ item.totvserverdownbackuphits }}"
+              labels: "{{ labels }}"
+
+            - name: response_bytes_received_total
+              type: counter
+              value: "{{ item.totalresponsebytes }}"
+              labels: "{{ labels }}"
+
+            - name: request_rate_bytes
+              type: gauge
+              value: "{{ item.requestbytesrate }}"
+              labels: "{{ labels }}"
+
+            - name: request_rate
+              type: gauge
+              value: "{{ item.requestsrate }}"
+              labels: "{{ labels }}"
+
+            - name: packets_received_rate
+              type: gauge
+              value: "{{ item.pktsrecvdrate }}"
+              labels: "{{ labels }}"
+
+            - name: frustrating_transactions_rate
+              type: gauge
+              value: "{{ item.frustratingttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: client_response_time_adex
+              type: gauge
+              value: "{{ item.cltresponsetimeapdex }}"
+              labels: "{{ labels }}"
+
+            - name: spill_over_threshold
+              type: gauge
+              value: "{{ item.sothreshold }}"
+              labels: "{{ labels }}"
+
+            - name: actual_server_current_connections
+              type: gauge
+              value: "{{ item.cursrvrconnections }}"
+              labels: "{{ labels }}"
+
+            - name: labeled_connections_count
+              type: gauge
+              value: "{{ item.labelledconn }}"
+              labels: "{{ labels }}"
+
+            - name: current_tcp_sessions_count
+              type: gauge
+              value: "{{ item.curmptcpsessions }}"
+              labels: "{{ labels }}"
+
+            - name: deferred_requets_rate
+              type: gauge
+              value: "{{ item.deferredreqrate }}"
+              labels: "{{ labels }}"
+
+            - name: average_ttlb
+              type: gauge
+              value: "{{ item.avgcltttlb }}"
+              labels: "{{ labels }}"
+
+            - name: ttlb_transactions_rate
+              type: gauge
+              value: "{{ item.cltttlbtransactionsrate }}"
+              labels: "{{ labels }}"
+
+            - name: total_responses_rate
+              type: gauge
+              value: "{{ item.responsesrate }}"
+              labels: "{{ labels }}"
+
+            - name: total_packets_sent_rate
+              type: gauge
+              value: "{{ item.pktssentrate }}"
+              labels: "{{ labels }}"
+
+            - name: current_tcp_subflows_count
+              type: gauge
+              value: "{{ item.cursubflowconn }}"
+              labels: "{{ labels }}"
+
+            - name: current_client_connection_count
+              type: gauge
+              value: "{{ item.curclntconnections }}"
+              labels: "{{ labels }}"
+
+            - name: push_label_count
+              type: gauge
+              value: "{{ item.pushlabel }}"
+              labels: "{{ labels }}"
+
+            - name: hits_rate
+              type: gauge
+              value: "{{ item.hitsrate }}"
+              labels: "{{ labels }}"
+
+            - name: established_connections_count
+              type: gauge
+              value: "{{ item.establishedconn }}"
+              labels: "{{ labels }}"
+
+            - name: response_bytes_received_rate
+              type: gauge
+              value: "{{ item.responsebytesrate }}"
+              labels: "{{ labels }}"
+
+...

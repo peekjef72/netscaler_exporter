@@ -1,0 +1,28 @@
+---
+
+##
+## url: https://developer-docs.citrix.com/projects/netscaler-nitro-api/en/12.0/configuration/ssl/sslcertkey/
+###
+#
+- name: sslcertkey
+  actions:
+    - name: collect elements
+      url: /config/sslcertkey
+      var_name: _root
+
+    - name: proceed elements
+      metric_prefix: citrixadc_ssl_cert
+      with_items: "{{ sslcertkey }}"
+      metrics:
+        - name: days_to_expire
+          help: Days remaining for the certificate to expire
+          type: gauge
+          labels:
+            - name: citrixadc_cert_key
+              value: "{{ item.certkey }}"
+            - name: citrixadc_cert_subject
+              value: "{{ item.subject }}"
+          value: "{{ item.daystoexpiration }}"
+
+...
+
