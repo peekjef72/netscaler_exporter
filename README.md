@@ -139,7 +139,7 @@ All values, computations, labels are defined in the metrics files, meaning that 
 Currently collected metrics are:
 
      STATS                | NS nitro name
---------------------------|--------------
+------------------------- | -------------
 LB vserver stats          | "lbvserver"
 CS vserver stats          | "csvserver"
 HTTP stats                | "protocolhttp"
