@@ -138,8 +138,8 @@ All values, computations, labels are defined in the metrics files, meaning that 
 
 Currently collected metrics are:
 
-     STATS                | NS nitro name
-------------------------- | -------------
+ STATS | NS nitro name
+------ | -------------
 LB vserver stats | "lbvserver"
 CS vserver stats | "csvserver"
 HTTP stats | "protocolhttp"
@@ -158,7 +158,7 @@ System memory stats | "systemmemory"
 System cpu stats | "systemcpu"
 High Availability stats | "hanode.yml"
 AAA stats | "aaa"
-ADC Probe success | "1" if successful, else "0"
+ADC Probe success | "1" if login is successful, else "0"
 
 ## Prometheus config
 
