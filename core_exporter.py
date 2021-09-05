@@ -76,7 +76,7 @@ class NetscalerExporter(object):
       except RequestException as e:
          self.logger.error('Stat Access Error on {1}: {0}'.format(e, self.api.getHost()))
 
-      except VeeamAPIUnauthorizedError:
+      except NetscalerAPIUnauthorizedError:
          self.ns_session_clear()
          if self.login():
             return 'retry', None
@@ -127,10 +127,10 @@ class NetscalerExporter(object):
                self.logger.error('Invalid username or password for ADC on {0}'.format( self.api.getHost() ) )
 
       except (ConnectionError, ReadTimeout) as exc:
-         self.logger.error('Connection Exception: {0}'.format(exc))
+         self.logger.error('Connection Exception: Host {1}: {0}'.format(exc, self.api.getHost()))
       except NetscalerAPIUnauthorizedError as exc:
          self.logger.error("user '{0}' not authorized on https://{1}:{2}".format(
-                self.api.auth[0],
+                self.api.basic_auth[0],
                 self.api.getHost(), self.api.url_port)
 	)
       except requests.exceptions.RequestException as e:

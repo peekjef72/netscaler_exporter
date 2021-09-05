@@ -78,7 +78,7 @@ class NetscalerAPI:
         proxy=None,
         keep_session=True,
     ):
-        self.auth = auth
+        self.basic_auth = auth
         self.verify = verify
         self.timeout = timeout
         self.keep_session = keep_session
@@ -187,8 +187,8 @@ class NetscalerAPI:
         '''
         login_obj = { 
 		'login': { 
-			'username': self.auth[0],
-			'password': self.auth[1],
+			'username': self.basic_auth[0],
+			'password': self.basic_auth[1],
 		}
 	}
         try:
