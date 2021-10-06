@@ -1,5 +1,9 @@
 # netscaler_exporter
 
+## Overview
+
+![dashboard overview](./screenshots/netscaler_general.png)
+
 ## Description
 Prometheus exporter for Netscaler (CITRIX ADC)
 
@@ -11,7 +15,7 @@ This exporter is strongly inspired from [citrix-adc-metrics-exporter](citrix/cit
 
 It allows you collect several netscalers by adding them to the YAML config file and then specifying a target parameter in Prometheus configuration.
 
-**Config**: (see config.yml)
+**Config**: (see conf/netscaler_exporter.yml)
 
 ```yaml
 veeams:
@@ -38,7 +42,7 @@ logger:
   level: info
   facility: syslog
 
-metrics_file: "metrics/*_metrics.yml"
+metrics_file: "conf/metrics/*_metrics.yml"
 ```
 
 ## Usage
@@ -162,6 +166,33 @@ ADC Probe success | "1" if login is successful, else "0"
 
 ## Prometheus config
 
+Since several netscalers can be set in the exporter, Prometheus addresses each server by adding a target
+ parameter in the url. The "target" must be the same (lexically) that in exporter config file.
+
+```yaml
+  - job_name: "citrix_netscaler"
+    scrape_interval: 30s
+    scrape_timeout: 20s
+    metrics_path: /metrics
+
+    static_configs:
+      - targets: [ netscalerhost.domain ]
+        labels:
+          environment: "PROD"
+      - targets: [ netscalerhost2.domain]
+        labels:
+          environment: "PROD"
+
+#    file_sd_configs:
+#      - files: [ "/etc/prometheus/citrix_exp/*.yml" ]
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: "netscaler-exporter-hostname.domain:9258"  # The netscaler exporter's real hostname.
+```
 
 ## Extending metrics
 

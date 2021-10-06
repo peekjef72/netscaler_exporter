@@ -1,4 +1,3 @@
-#import sys, os, logging
 from threading import Lock
 
 from jinja2 import Environment
@@ -6,7 +5,7 @@ import json
 
 from prometheus_client import Gauge, Counter
 
-from filters import Filters
+from netscaler_exporter.filters import Filters
 
 #******************************************************************************************
 class EmptyItem(object):

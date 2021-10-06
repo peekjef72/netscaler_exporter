@@ -1,0 +1,33 @@
+
+netscalers: 
+  - host: host.domain
+#    port: 443
+    user: 'usr_netscaler_supervision'
+    password: '01234567899876543210'
+    verify_ssl: false
+    timeout: 20
+#    keep_session: true # default
+#    default_labels:
+#      - name: nsip
+#        value: my_label
+
+
+  - host: host2.other.domain
+    user: 'usr_netscaler_supervision'
+    password: XXXXXXXXXXXXXXXXXXX
+    verify_ssl: false
+    timeout: 20
+    proxy:
+      url: http://my_http.proxy.domain:9101
+#      protocol: https
+
+weblisten:
+  address: 0.0.0.0
+  port: 9259
+
+logger:
+  level: info
+  facility: syslog
+
+metrics_file: "conf/metrics/*.yml"
+

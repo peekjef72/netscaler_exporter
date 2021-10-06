@@ -5,7 +5,7 @@ from prometheus_client import CollectorRegistry, generate_latest, Gauge
 from tenacity import retry, RetryError, retry_if_exception_type
 from tenacity import stop_after_attempt, wait_fixed, retry_if_result
 
-from netscaler_api import NetscalerAPI, NetscalerAPIUnauthorizedError
+from netscaler_exporter.netscaler_api import NetscalerAPI, NetscalerAPIUnauthorizedError
 
 NSERR_SESSION_EXPIRED = 0x1BC
 NSERR_AUTHTIMEOUT = 0x403
