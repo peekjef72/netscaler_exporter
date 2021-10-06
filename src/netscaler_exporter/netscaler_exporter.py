@@ -114,7 +114,7 @@ def main():
 
    # get command line arguments
 
-   parser = argparse.ArgumentParser(description='collector for veeam server.')
+   parser = argparse.ArgumentParser(description='collector for Citrix Netscaler.')
    parser.add_argument('-b', '--base_path'
                         , help='set base directory to find default files.')
    parser.add_argument('-c', '--config_file'
@@ -367,7 +367,7 @@ def main():
       my_exit(1);
 
    #*****************************
-   #* build veeam exporter interface
+   #* build netscaler exporter interface
    exporter = NetscalerExporter(
 	engine=script,
 	apis=apis,

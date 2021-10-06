@@ -18,7 +18,7 @@ It allows you collect several netscalers by adding them to the YAML config file 
 **Config**: (see conf/netscaler_exporter.yml)
 
 ```yaml
-veeams:
+netscalers:
   - host: host.domain
 #    port: 443
     user: 'user'
@@ -28,8 +28,8 @@ veeams:
 #   timeout: 20
 #   keep_session: true # default
 #   default_labels:
-#     - name: veeam_em
-#       value: my_veeam_em_server.domain
+#     - name: netscaler_specific_data
+#       value: my_label
 #       proxy:
 #         url: http://my.proxy.domain:port/
 #         protocol: https
@@ -47,7 +47,18 @@ metrics_file: "conf/metrics/*_metrics.yml"
 
 ## Usage
 
-The exporter runs as a standalone python script.
+The exporter may run as a unix command with module installation or as standalone python script without instalation.
+i<summary>Usage as a system command</summary>
+
+the easiest way is to install from pip:
+
+```shell
+pip3 install --upgrade netscaler_exporter
+```
+
+then you can use the entry point create by the installer of the module in /usr/local/bin/netscaler_exporter or in [venv]/bin/netscaler_exporter for venv context.
+The recommanded usage is in venv.
+
 <summary>Usage as a Python Script</summary>
 
 <br>
@@ -69,12 +80,34 @@ PyYAML==5.3.1
 tenacity==6.2.0
 urllib3>=1.25.9
 Jinja2>=2.11.2
+python-dateutil>=0.6.12
 ```
 
 </details>
 
-Consider, to extract the archiv file in /opt folder; this will generate a folder /opt/netscaler_exporter_1.0.0.1.
-Then edit the config.yml file and add your settings.
++ Consider, to extract the archiv file in /tmp folder; this will generate a folder /tmp/netscaler_exporter_[version].
++ create a directory where you want, by example /opt/netscaler_exporter_[version],
++ move the /tmp/netscaler_exporter_[version]/netscaler_exporter_package directory to /opt/eeam_exporter_[version]
++ create a command file to launch the exporter in dir /opt/netscaler_exporter_[version]
+```shell
+vi /opt/netscaler_exporter_X.Y.Z/netscaler_exporter_cmd
+#!/usr/libexec/platform-python
+# -*- coding: utf-8 -*-
+import re
+import sys
+from netscaler_exporter.netscaler_exporter import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
+
+```
++ Then edit the conf/config.yml file and add your settings.
++ Try your config by executing the command in try mode
+
+example with the default dumy config file:
+```shell
+python3 veeam_exporter_cmd -n -v
+```
 
 ## exporter command line options
 
@@ -90,13 +123,13 @@ By default, it will load the file config.yml to perform action.
 <summary>Detail options</summary>
 
 ```shell
+usage: netscaler_exporter_cmd [-h] [-b BASE_PATH] [-c CONFIG_FILE]
+                              [-F FILTER_PATH] [-f LOGGER.FACILITY]
+                              [-l {error,warning,info,debug}]
+                              [-o  METRICS_FILE] [-m  METRIC] [-n]
+                              [-t  TARGET] [-w WEB.LISTEN_ADDRESS] [-V] [-v]
 
-Usage: netscaler_exporter [-h] [-b BASE_PATH] [-c CONFIG_FILE]
-                      [-f LOGGER.FACILITY] [-l {error,warning,info,debug}]
-                      [-o  METRICS_FILE] [-m  METRIC] [-n] [-t  TARGET]
-                      [-w WEB.LISTEN_ADDRESS] [-V] [-v]
-
-collector for netscaler.
+collector for Citrix Netscaler.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -104,6 +137,8 @@ optional arguments:
                         set base directory to find default files.
   -c CONFIG_FILE, --config_file CONFIG_FILE
                         path to config files.
+  -F FILTER_PATH, --filter_path FILTER_PATH
+                        set filter directory to find filter files.
   -f LOGGER.FACILITY, --logger.facility LOGGER.FACILITY
                         logger facility (syslog or file path).
   -l {error,warning,info,debug}, --logger.level {error,warning,info,debug}
@@ -135,35 +170,6 @@ To test your configuration you can launch the exporter in dry_mode:
 
 This command will try to connect to the 'host.domain' netscaler with parameters specified in config.yml, exposes the collected metrics, and eventually the warning or errors, then exits.
 
-## Metrics
-
-The collected metrics are defined in separeted files positionned in the folder metrics.
-All values, computations, labels are defined in the metrics files, meaning that the exporter doesn't nothing internally on values. The configuration fully drive how values are rendered.
-
-Currently collected metrics are:
-
- STATS | NS nitro name
------- | -------------
-LB vserver stats | "lbvserver"
-CS vserver stats | "csvserver"
-HTTP stats | "protocolhttp"
-TCP stats | "protocoltcp"
-UDP stats | "protocoludp"
-IP stats | "protocolip"
-Interface stats | "Interface" (capital 'i')
-Service stats | "service"
-Service group stats | "services"
-Bandwidth Capacity stats | "nscapacity"
-SSL stats | "ssl"
-SSL Certicates stats | "sslcertkey"
-SSL vserver stats | "sslvserver"
-System info stats | "system"
-System memory stats | "systemmemory"
-System cpu stats | "systemcpu"
-High Availability stats | "hanode.yml"
-AAA stats | "aaa"
-ADC Probe success | "1" if login is successful, else "0"
-
 ## Prometheus config
 
 Since several netscalers can be set in the exporter, Prometheus addresses each server by adding a target
@@ -193,6 +199,37 @@ Since several netscalers can be set in the exporter, Prometheus addresses each s
       - target_label: __address__
         replacement: "netscaler-exporter-hostname.domain:9258"  # The netscaler exporter's real hostname.
 ```
+
+## Metrics
+
+The collected metrics are defined in separeted files positionned in the folder conf/metrics.
+All values, computations, labels are defined in the metrics files, meaning that the exporter doesn't nothing internally on values. The configuration fully drive how values are rendered.
+
+### Currently collected metrics are:
+
+All metrics are defined in the configuration files (conf/metrics/*.yml). You can retrive all metric names here. Most of them have help text too.
+
+ STATS | NS nitro name
+------ | -------------
+LB vserver stats | "lbvserver"
+CS vserver stats | "csvserver"
+HTTP stats | "protocolhttp"
+TCP stats | "protocoltcp"
+UDP stats | "protocoludp"
+IP stats | "protocolip"
+Interface stats | "Interface" (capital 'i')
+Service stats | "service"
+Service group stats | "services"
+Bandwidth Capacity stats | "nscapacity"
+SSL stats | "ssl"
+SSL Certicates stats | "sslcertkey"
+SSL vserver stats | "sslvserver"
+System info stats | "system"
+System memory stats | "systemmemory"
+System cpu stats | "systemcpu"
+High Availability stats | "hanode.yml"
+AAA stats | "aaa"
+ADC Probe success | "1" if login is successful, else "0"
 
 ## Extending metrics
 
