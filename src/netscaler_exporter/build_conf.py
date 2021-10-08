@@ -1,4 +1,4 @@
-import netscaler_exporter, sys, os, argparse
+import netscaler_exporter, sys, os, argparse, inspect
 import shutil 
 
 #******************************************************************************************
@@ -46,9 +46,11 @@ def main():
       dry_mode_str = ''
 
    if not os.path.exists(config_path):
-      if not args.dry_mode:
-         os.mkdir( config_path )
-      print( '{0}{1} directory created'.format(dry_mode_str, config_path) )
+      pass
+      # do nothing since shutil.copytree() will create the directory and raise exception if it exists!
+#      if not args.dry_mode:
+#         os.mkdir( config_path )
+#      print( '{0}{1} directory created'.format(dry_mode_str, config_path) )
    elif not os.path.isdir(config_path):
       print( '{0}error: {1} is not a directory'.format(dry_mode_str, config_path) )
       sys.exit(1)
@@ -57,16 +59,16 @@ def main():
       if not args.overwrite:
          print('{0}ok: no copy performed. (overwrite is False)'.format(dry_mode_str))
          sys.exit(0)
-   
-   if hasattr(netscaler_exporter, '__path__'):
-      netscaler_path = (netscaler_exporter.__path__)[0]
+
+   netscaler_path = os.path.dirname( inspect.getabsfile(netscaler_exporter) )
+   if netscaler_path is not None:
       print('{0}path for module netscaler_exporter is : {1}'.format( dry_mode_str, netscaler_path ))
    else:
       print('{0}error: path for module netscaler_exporter not found!'.format(dry_mode_str))
       sys.exit(1)
 
    if not args.dry_mode:
-      shutil.copytree('netscaler_path' + '/conf/', config_path)
+      shutil.copytree(netscaler_path + '/conf/', config_path)
    print('{0}ok: files copied in {1}'.format(dry_mode_str, config_path))
    sys.exit(0)
 
