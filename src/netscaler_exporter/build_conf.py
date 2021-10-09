@@ -1,5 +1,5 @@
-import netscaler_exporter, sys, os, argparse, inspect
-import shutil 
+import sys, os, argparse, inspect, shutil
+from netscaler_exporter.netscaler_exporter import get_module_path
 
 #******************************************************************************************
 class myArgs:
@@ -60,7 +60,7 @@ def main():
          print('{0}ok: no copy performed. (overwrite is False)'.format(dry_mode_str))
          sys.exit(0)
 
-   netscaler_path = os.path.dirname( inspect.getabsfile(netscaler_exporter) )
+   netscaler_path = get_module_path()
    if netscaler_path is not None:
       print('{0}path for module netscaler_exporter is : {1}'.format( dry_mode_str, netscaler_path ))
    else:

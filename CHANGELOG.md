@@ -4,7 +4,12 @@ This project adheres to [Semantic Versioning](http://semver.org/) and [Keep a ch
 
  <!--next-version-placeholder-->
 
-## v1.0.0 (2021-10-08)
+## v1.0.2 (2021-10-09)
+### fixed
+- bug in custom filter root class.
+
+
+## v1.0.1 (2021-10-08)
 ### fixed
 - bug in build_conf command line.
 
