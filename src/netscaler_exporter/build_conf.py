@@ -16,7 +16,7 @@ def main():
 
    # get command line arguments
 
-   parser = argparse.ArgumentParser(description='build config directory for netscaler exporter.')
+   parser = argparse.ArgumentParser(description='build config directory for netscaler_exporter.')
    parser.add_argument('-c', '--config_path'
                         , help='set config directory to copy default files.')
 

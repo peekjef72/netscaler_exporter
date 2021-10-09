@@ -1,6 +1,6 @@
 
-from  pathlib import Path
-import importlib, sys, os, re, inspect
+from pathlib import Path
+import importlib, sys, os, re
 from inspect import getabsfile, getmembers, isclass
 
 #************************************************************************
@@ -20,9 +20,10 @@ class Filters(object):
 
    #********************************
    def __init__(self, path=None, module_name=None):
-      self.add( Filter('default') )
-      if path is None:
 
+      self.add( Filter('default') )
+
+      if path is None:
          if module_name is not None and module_name in sys.modules:
             mod = sys.modules[module_name]
             path = os.path.dirname( getabsfile(mod) ) + '/custom_filters'
